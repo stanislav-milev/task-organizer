@@ -30,12 +30,14 @@ public class DataStore {
 			out = new ObjectOutputStream(new FileOutputStream(new File(path)));
 			out.writeObject(timerO);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//TODO add some error handling
 		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				//TODO add some error handling
 			}
 		}
 	}
@@ -56,14 +58,18 @@ public class DataStore {
 		} catch (FileNotFoundException e) {
 			throw new IOException(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//TODO add some error handling
 		} 
 		try {
 			result = in.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//TODO add some error handling
 		} catch (ClassCastException e) {
-			System.out.println("There is no correct data in the file.");
+			//e.printStackTrace();
+			//TODO add some error handling
+			//System.out.println("There is no correct data in the file.");
 			return null;
 		} finally {
 			in.close();
