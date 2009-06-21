@@ -7,7 +7,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.Timer;
 
-import org.btb.timer.core.TimerO;
+import org.btb.timer.core.TaskO;
 import org.btb.timer.gui.TimerV;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.GUIThread;
@@ -40,7 +40,7 @@ public class TimerC implements ActionListener, WindowListener {
 	 * Constructor.
 	 * @param timerO
 	 */
-	public TimerC(TimerO timerO) {
+	public TimerC(TaskO timerO) {
 		this();
 		view.initFields(timerO);
 	}
@@ -51,10 +51,10 @@ public class TimerC implements ActionListener, WindowListener {
 	 */
 	private void setListeners(GUIThread gtView) {
 		while(gtView.isNotReady()) {}
-		view.getBtnReset().addActionListener(this);
-		view.getBtnStart().addActionListener(this);
-		view.getBtnStop().addActionListener(this);
-		view.gerFrame().addWindowListener(this);
+		view.getBtnResetTimer().addActionListener(this);
+		view.getBtnStartTimer().addActionListener(this);
+		view.getBtnStopTimer().addActionListener(this);
+		view.getFrame().addWindowListener(this);
 	}
 
 	/* (non-Javadoc)
@@ -63,16 +63,16 @@ public class TimerC implements ActionListener, WindowListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object actionEventSource = e.getSource();
-		if (actionEventSource.equals(view.getBtnReset())) {
+		if (actionEventSource.equals(view.getBtnResetTimer())) {
 			view.setTime(0, 0, 0);
 		} else
 			
-		if (actionEventSource.equals(view.getBtnStart())) {
+		if (actionEventSource.equals(view.getBtnStartTimer())) {
 			view.setComponentsState(false);
 			timer.start();
 		} else
 			
-		if (actionEventSource.equals(view.getBtnStop())) {
+		if (actionEventSource.equals(view.getBtnStopTimer())) {
 			timer.stop();
 			view.setComponentsState(true);
 		} else
@@ -110,7 +110,7 @@ public class TimerC implements ActionListener, WindowListener {
 	public void windowClosing(WindowEvent e) {
 		timer.stop();
 		view.setComponentsState(true);
-		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
+		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTaskO());
 	}
 
 	

@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-import org.btb.timer.core.TimerO;
+import org.btb.timer.core.TaskO;
 
 /**
  * Utility class for storing and loading data.
@@ -24,7 +24,7 @@ public class DataStore {
 	 * @param path	the path of the file
 	 * @param timerO the object that will be stored in the file
 	 */
-	public static void saveObject(String path, TimerO timerO) {
+	public static void saveObject(String path, TaskO timerO) {
 		ObjectOutput out = null;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(new File(path)));

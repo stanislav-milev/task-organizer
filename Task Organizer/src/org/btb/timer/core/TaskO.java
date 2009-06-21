@@ -8,11 +8,12 @@ import java.io.Serializable;
  * @author Stanislav Milev
  * @date 16.10.2008
  */
-public class TimerO implements Serializable {
+public class TaskO implements Serializable {
 
 	private static final long serialVersionUID = 817955233404847856L;
 	
 	private String taskName;
+	private String description;
 	private int minutes;
 	private int hours;
 	private int days;
@@ -20,8 +21,9 @@ public class TimerO implements Serializable {
 	/**
 	 * Constructor.
 	 */
-	public TimerO() {
+	public TaskO() {
 		taskName	= "";
+		description = "";
 		minutes		= 0;
 		hours		= 0;
 		days		= 0;
@@ -30,12 +32,14 @@ public class TimerO implements Serializable {
 	/**
 	 * Constructor.
 	 * @param taskName
+	 * @param description
 	 * @param minutes
 	 * @param hours
 	 * @param days
 	 */
-	public TimerO(String taskName, int minutes, int hours, int days) {
+	public TaskO(String taskName, String description, int minutes, int hours, int days) {
 		this.taskName = taskName;
+		this.description = description;
 		this.minutes = minutes;
 		this.hours = hours;
 		this.days = days;
@@ -53,6 +57,20 @@ public class TimerO implements Serializable {
 	 */
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
