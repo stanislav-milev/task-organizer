@@ -32,6 +32,18 @@ public class TaskO implements Serializable {
 	/**
 	 * Constructor.
 	 * @param taskName
+	 */
+	public TaskO(String taskName) {
+		this.taskName	= taskName;
+		description 	= "";
+		minutes			= 0;
+		hours			= 0;
+		days			= 0;
+	}
+
+	/**
+	 * Constructor.
+	 * @param taskName
 	 * @param description
 	 * @param minutes
 	 * @param hours
@@ -114,5 +126,9 @@ public class TaskO implements Serializable {
 	public void setDays(int days) {
 		this.days = days;
 	}
-
+	
+	public String toString() {
+		return taskName;
+	}
+	
 }
