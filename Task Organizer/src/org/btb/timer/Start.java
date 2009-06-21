@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.btb.timer.controls.TimerC;
 import org.btb.timer.core.TaskO;
+import org.btb.timer.core.TasksO;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.IConstants;
 
@@ -19,15 +20,15 @@ public class Start {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TaskO timerO = null;
+		TasksO tasksO = null;
 		try {
-			timerO = (TaskO) DataStore.getObject(IConstants.DEFAULT_FILE_PATH);
+			tasksO = (TasksO) DataStore.getObject(IConstants.DEFAULT_FILE_PATH);
 		} catch (IOException e) {}
 		
-		if (timerO != null) {
-			new TimerC(timerO);
-		} else
-		new TimerC();
+		if (tasksO == null) {
+			tasksO = new TasksO();
+		}
+		new TimerC(new TasksO());
 	}
 
 }

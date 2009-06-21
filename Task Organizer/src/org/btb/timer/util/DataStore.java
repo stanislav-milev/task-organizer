@@ -10,6 +10,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 import org.btb.timer.core.TaskO;
+import org.btb.timer.core.TasksO;
 
 /**
  * Utility class for storing and loading data.
@@ -22,13 +23,13 @@ public class DataStore {
 	 * Saves an object into a file.
 	 * 
 	 * @param path	the path of the file
-	 * @param timerO the object that will be stored in the file
+	 * @param taskList the object that will be stored in the file
 	 */
-	public static void saveObject(String path, TaskO timerO) {
+	public static void saveObject(String path, TasksO taskList) {
 		ObjectOutput out = null;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(new File(path)));
-			out.writeObject(timerO);
+			out.writeObject(taskList);
 		} catch (IOException e) {
 			//e.printStackTrace();
 			//TODO add some error handling

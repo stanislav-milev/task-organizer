@@ -8,6 +8,7 @@ import java.awt.event.WindowListener;
 import javax.swing.Timer;
 
 import org.btb.timer.core.TaskO;
+import org.btb.timer.core.TasksO;
 import org.btb.timer.gui.TimerV;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.GUIThread;
@@ -22,11 +23,14 @@ public class TimerC implements ActionListener, WindowListener {
 
 	private TimerV 	view;
 	private Timer 	timer;
+	private TaskO	currentTask;
+	private TasksO	taskList;
 	
 	/**
-	 * Constructor for first time start.
+	 * Constructor.
+	 * @param timerO
 	 */
-	public TimerC() {
+	public TimerC(TasksO tasksO) {
 		view = new TimerV();
 		GUIThread gtView = new GUIThread(view);
 		timer = new Timer(IConstants.MINUTE, this);
@@ -34,15 +38,9 @@ public class TimerC implements ActionListener, WindowListener {
 		
 		setListeners(gtView);
 		view.setComponentsState(true);
-	}
-
-	/**
-	 * Constructor.
-	 * @param timerO
-	 */
-	public TimerC(TaskO timerO) {
-		this();
-		view.initFields(timerO);
+		taskList = tasksO;
+		currentTask = tasksO.getCurrentTask();
+		view.initOrganizer(tasksO);
 	}
 
 	/**
@@ -51,6 +49,7 @@ public class TimerC implements ActionListener, WindowListener {
 	 */
 	private void setListeners(GUIThread gtView) {
 		while(gtView.isNotReady()) {}
+		view.getBtnAddTask().addActionListener(this);
 		view.getBtnResetTimer().addActionListener(this);
 		view.getBtnStartTimer().addActionListener(this);
 		view.getBtnStopTimer().addActionListener(this);
@@ -63,6 +62,11 @@ public class TimerC implements ActionListener, WindowListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object actionEventSource = e.getSource();
+		if (actionEventSource.equals(view.getBtnAddTask())) {
+			view.addNewTaskNode();
+			showSelectedNode();
+		} else
+		
 		if (actionEventSource.equals(view.getBtnResetTimer())) {
 			view.setTime(0, 0, 0);
 		} else
@@ -80,6 +84,11 @@ public class TimerC implements ActionListener, WindowListener {
 		if (actionEventSource.equals(timer)) {
 			adjustTime();
 		}
+	}
+
+	private void showSelectedNode() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -110,7 +119,7 @@ public class TimerC implements ActionListener, WindowListener {
 	public void windowClosing(WindowEvent e) {
 		timer.stop();
 		view.setComponentsState(true);
-		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTaskO());
+		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, taskList);
 	}
 
 	

@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.tree.*;
 
 import org.btb.timer.core.TaskO;
+import org.btb.timer.core.TasksO;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.*;
@@ -25,7 +26,7 @@ import com.jgoodies.forms.layout.*;
 public class TimerV implements IFrame {
 	
 	private static final long serialVersionUID = 2900548502443767184L;
-
+	
 	/* (non-Javadoc)
 	 * @see org.btb.timer.gui.IFrame#initGUI()
 	 */
@@ -127,10 +128,10 @@ public class TimerV implements IFrame {
 			{
 				
 				//---- treTaskList ----
+				treTaskList.setEditable(true);
 				treTaskList.setModel(new DefaultTreeModel(
 					new DefaultMutableTreeNode("Tasks") {
 						{
-							add(new DefaultMutableTreeNode("New Task"));
 						}
 					}));
 				scpTaskList.setViewportView(treTaskList);
@@ -238,6 +239,10 @@ public class TimerV implements IFrame {
 		return frame;
 	}
 
+	public JTree getTreTaskList() {
+		return treTaskList;
+	}
+
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	private JFrame frame;
 	private JPanel pnlTaskControls;
@@ -287,13 +292,6 @@ public class TimerV implements IFrame {
 	}
 
 	/**
-	 * @return
-	 */
-	public TaskO getTaskO() {
-		return new TaskO(getTaskName(), getTaskDescription(), getMinutes(), getHours(), getDays());
-	}
-
-	/**
 	 * Sets values in components.
 	 * @param taskO
 	 */
@@ -305,4 +303,15 @@ public class TimerV implements IFrame {
 		spnDays.setValue(new Integer(taskO.getDays()));
 	}
 
+	public void initOrganizer(TasksO tasksO) {
+		treTaskList.setModel(new DefaultTreeModel(tasksO.getTasksTree()));
+		treTaskList.setSelectionPath(tasksO.getCurrentTaskPath());
+		initFields(tasksO.getCurrentTask());
+	}
+
+	public void addNewTaskNode() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
