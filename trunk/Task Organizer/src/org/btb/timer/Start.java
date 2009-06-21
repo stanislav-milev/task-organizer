@@ -3,7 +3,7 @@ package org.btb.timer;
 import java.io.IOException;
 
 import org.btb.timer.controls.TimerC;
-import org.btb.timer.core.TimerO;
+import org.btb.timer.core.TaskO;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.IConstants;
 
@@ -19,9 +19,9 @@ public class Start {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TimerO timerO = null;
+		TaskO timerO = null;
 		try {
-			timerO = (TimerO) DataStore.getObject(IConstants.DEFAULT_FILE_PATH);
+			timerO = (TaskO) DataStore.getObject(IConstants.DEFAULT_FILE_PATH);
 		} catch (IOException e) {}
 		
 		if (timerO != null) {

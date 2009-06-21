@@ -2,21 +2,19 @@ package org.btb.timer.gui;
 
 import java.awt.Container;
 import java.awt.Toolkit;
+import javax.swing.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.tree.*;
 
-import org.btb.timer.core.TimerO;
+import org.btb.timer.core.TaskO;
 
 import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.*;
 
 
 /**
@@ -38,30 +36,40 @@ public class TimerV implements IFrame {
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		frame = new JFrame();
+		pnlTaskControls = new JPanel();
+		btnAddTask = new JButton();
+		btnDeleteTask = new JButton();
 		lblTaskName = new JLabel();
 		txfTaskName = new JTextField();
+		scpTaskList = new JScrollPane();
+		treTaskList = new JTree();
+		lblTaskDescription = new JLabel();
+		scpTaskDescription = new JScrollPane();
+		txaTaskDescription = new JTextArea();
 		lblDays = new JLabel();
 		lblHours = new JLabel();
 		lblMinutes = new JLabel();
 		spnDays = new JSpinner();
 		spnHours = new JSpinner();
 		spnMinutes = new JSpinner();
-		btnStart = new JButton();
-		btnStop = new JButton();
-		btnReset = new JButton();
+		btnStartTimer = new JButton();
+		btnStopTimer = new JButton();
+		btnResetTimer = new JButton();
 		CellConstraints cc = new CellConstraints();
 
 		//======== frame ========
 		{
-			frame.setTitle("Timer");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setTitle("Task Organizer");
 			frame.setResizable(false);
 			Container frameContentPane = frame.getContentPane();
 			frameContentPane.setLayout(new FormLayout(
 				new ColumnSpec[] {
 					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
+					new ColumnSpec(Sizes.dluX(120)),
+					FormFactory.UNRELATED_GAP_COLSPEC,
+					new ColumnSpec(Sizes.dluX(60)),
 					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -76,54 +84,104 @@ public class TimerV implements IFrame {
 					FormFactory.LINE_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.LINE_GAP_ROWSPEC,
+					new RowSpec(RowSpec.FILL, Sizes.dluY(100), FormSpec.NO_GROW),
+					FormFactory.LINE_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.LINE_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.LINE_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC
+					new RowSpec(RowSpec.FILL, Sizes.DEFAULT, FormSpec.NO_GROW)
 				}));
-			((FormLayout)frameContentPane.getLayout()).setColumnGroups(new int[][] {{3, 5, 7}});
+			((FormLayout)frameContentPane.getLayout()).setColumnGroups(new int[][] {{5, 7, 9}});
+			
+			//======== pnlTaskControls ========
+			{
+				pnlTaskControls.setLayout(new FormLayout(
+					new ColumnSpec[] {
+						FormFactory.DEFAULT_COLSPEC,
+						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+						FormFactory.DEFAULT_COLSPEC,
+						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+						FormFactory.DEFAULT_COLSPEC
+					},
+					RowSpec.decodeSpecs("default")));
+				
+				//---- btnAddTask ----
+				btnAddTask.setText("Add");
+				pnlTaskControls.add(btnAddTask, cc.xy(3, 1));
+				
+				//---- btnDeleteTask ----
+				btnDeleteTask.setText("Delete");
+				pnlTaskControls.add(btnDeleteTask, cc.xy(5, 1));
+			}
+			frameContentPane.add(pnlTaskControls, cc.xywh(3, 3, 1, 1, CellConstraints.RIGHT, CellConstraints.DEFAULT));
 			
 			//---- lblTaskName ----
-			lblTaskName.setText("Task name:");
-			frameContentPane.add(lblTaskName, cc.xywh(3, 3, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
-			frameContentPane.add(txfTaskName, cc.xywh(5, 3, 3, 1));
+			lblTaskName.setText("Task Name:");
+			frameContentPane.add(lblTaskName, cc.xywh(5, 3, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
+			frameContentPane.add(txfTaskName, cc.xywh(7, 3, 3, 1));
+			
+			//======== scpTaskList ========
+			{
+				
+				//---- treTaskList ----
+				treTaskList.setModel(new DefaultTreeModel(
+					new DefaultMutableTreeNode("Tasks") {
+						{
+							add(new DefaultMutableTreeNode("New Task"));
+						}
+					}));
+				scpTaskList.setViewportView(treTaskList);
+			}
+			frameContentPane.add(scpTaskList, cc.xywh(3, 5, 1, 9));
+			
+			//---- lblTaskDescription ----
+			lblTaskDescription.setText("Description:");
+			frameContentPane.add(lblTaskDescription, cc.xywh(5, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
+			
+			//======== scpTaskDescription ========
+			{
+				scpTaskDescription.setViewportView(txaTaskDescription);
+			}
+			frameContentPane.add(scpTaskDescription, cc.xywh(5, 7, 5, 1));
 			
 			//---- lblDays ----
 			lblDays.setText("Days");
-			frameContentPane.add(lblDays, cc.xywh(3, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
+			frameContentPane.add(lblDays, cc.xywh(5, 9, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
 			
 			//---- lblHours ----
 			lblHours.setText("Hours");
-			frameContentPane.add(lblHours, cc.xywh(5, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
+			frameContentPane.add(lblHours, cc.xywh(7, 9, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
 			
 			//---- lblMinutes ----
 			lblMinutes.setText("Minutes");
-			frameContentPane.add(lblMinutes, cc.xywh(7, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
+			frameContentPane.add(lblMinutes, cc.xywh(9, 9, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
 			
 			//---- spnDays ----
 			spnDays.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-			frameContentPane.add(spnDays, cc.xy(3, 7));
+			frameContentPane.add(spnDays, cc.xy(5, 11));
 			
 			//---- spnHours ----
 			spnHours.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-			frameContentPane.add(spnHours, cc.xy(5, 7));
+			frameContentPane.add(spnHours, cc.xy(7, 11));
 			
 			//---- spnMinutes ----
 			spnMinutes.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-			frameContentPane.add(spnMinutes, cc.xy(7, 7));
+			frameContentPane.add(spnMinutes, cc.xy(9, 11));
 			
-			//---- btnStart ----
-			btnStart.setText("Start");
-			frameContentPane.add(btnStart, cc.xy(3, 9));
+			//---- btnStartTimer ----
+			btnStartTimer.setText("Start");
+			frameContentPane.add(btnStartTimer, cc.xy(5, 13));
 			
-			//---- btnStop ----
-			btnStop.setText("Stop");
-			frameContentPane.add(btnStop, cc.xy(5, 9));
+			//---- btnStopTimer ----
+			btnStopTimer.setText("Stop");
+			frameContentPane.add(btnStopTimer, cc.xy(7, 13));
 			
-			//---- btnReset ----
-			btnReset.setText("Reset");
-			frameContentPane.add(btnReset, cc.xy(7, 9));
+			//---- btnResetTimer ----
+			btnResetTimer.setText("Reset");
+			frameContentPane.add(btnResetTimer, cc.xy(9, 13));
 		}
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 		
@@ -140,6 +198,10 @@ public class TimerV implements IFrame {
 		return txfTaskName.getText();
 	}
 
+	public String getTaskDescription() {
+		return txaTaskDescription.getText();
+	}
+	
 	public int getHours() {
 		return Integer.parseInt(spnHours.getValue().toString());
 	}
@@ -148,39 +210,55 @@ public class TimerV implements IFrame {
 		return Integer.parseInt(spnMinutes.getValue().toString());
 	}
 
-	public JButton getBtnStop() {
-		return btnStop;
-	}
-
-	public JButton getBtnReset() {
-		return btnReset;
-	}
-
 	public int getDays() {
 		return Integer.parseInt(spnDays.getValue().toString());
 	}
 
-	public JButton getBtnStart() {
-		return btnStart;
+	public JButton getBtnAddTask() {
+		return btnAddTask;
 	}
 
-	public JFrame gerFrame() {
+	public JButton getBtnDeleteTask() {
+		return btnDeleteTask;
+	}
+
+	public JButton getBtnStartTimer() {
+		return btnStartTimer;
+	}
+
+	public JButton getBtnStopTimer() {
+		return btnStopTimer;
+	}
+
+	public JButton getBtnResetTimer() {
+		return btnResetTimer;
+	}
+
+	public JFrame getFrame() {
 		return frame;
 	}
-	
+
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	private JFrame frame;
+	private JPanel pnlTaskControls;
+	private JButton btnAddTask;
+	private JButton btnDeleteTask;
 	private JLabel lblTaskName;
 	private JTextField txfTaskName;
+	private JScrollPane scpTaskList;
+	private JTree treTaskList;
+	private JLabel lblTaskDescription;
+	private JScrollPane scpTaskDescription;
+	private JTextArea txaTaskDescription;
 	private JLabel lblDays;
 	private JLabel lblHours;
 	private JLabel lblMinutes;
 	private JSpinner spnDays;
 	private JSpinner spnHours;
 	private JSpinner spnMinutes;
-	private JButton btnStart;
-	private JButton btnStop;
-	private JButton btnReset;
+	private JButton btnStartTimer;
+	private JButton btnStopTimer;
+	private JButton btnResetTimer;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 
 	/**
@@ -194,9 +272,9 @@ public class TimerV implements IFrame {
 		spnDays.setEnabled(isTimerStopped);
 		spnHours.setEnabled(isTimerStopped);
 		spnMinutes.setEnabled(isTimerStopped);
-		btnReset.setEnabled(isTimerStopped);
-		btnStart.setEnabled(isTimerStopped);
-		btnStop.setEnabled(!isTimerStopped);
+		btnResetTimer.setEnabled(isTimerStopped);
+		btnStartTimer.setEnabled(isTimerStopped);
+		btnStopTimer.setEnabled(!isTimerStopped);
 	}
 
 	/**
@@ -211,19 +289,20 @@ public class TimerV implements IFrame {
 	/**
 	 * @return
 	 */
-	public TimerO getTimerO() {
-		return new TimerO(getTaskName(), getMinutes(), getHours(), getDays());
+	public TaskO getTaskO() {
+		return new TaskO(getTaskName(), getTaskDescription(), getMinutes(), getHours(), getDays());
 	}
 
 	/**
 	 * Sets values in components.
-	 * @param timerO
+	 * @param taskO
 	 */
-	public void initFields(TimerO timerO) {
-		txfTaskName.setText(timerO.getTaskName());
-		spnMinutes.setValue(new Integer(timerO.getMinutes()));
-		spnHours.setValue(new Integer(timerO.getHours()));
-		spnDays.setValue(new Integer(timerO.getDays()));
+	public void initFields(TaskO taskO) {
+		txfTaskName.setText(taskO.getTaskName());
+		txaTaskDescription.setText(taskO.getDescription());
+		spnMinutes.setValue(new Integer(taskO.getMinutes()));
+		spnHours.setValue(new Integer(taskO.getHours()));
+		spnDays.setValue(new Integer(taskO.getDays()));
 	}
 
 }
