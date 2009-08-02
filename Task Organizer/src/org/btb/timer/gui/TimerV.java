@@ -309,9 +309,46 @@ public class TimerV implements IFrame {
 		initFields(tasksO.getCurrentTask());
 	}
 
-	public void addNewTaskNode() {
-		// TODO Auto-generated method stub
-		
+	public DefaultMutableTreeNode getRoot() {
+		return (DefaultMutableTreeNode) treTaskList.getModel().getRoot();
 	}
 	
+	/**
+	 * Adds a new task to the task list. 
+	 * @return path to the new node
+	 */
+	public TreePath addNewTaskNode() {
+		TreePath path = treTaskList.getSelectionPath();
+		if (path == null) {
+			path = new TreePath(getRoot().getPath());
+		}
+		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+		DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new TaskO("New Task"));
+		((DefaultTreeModel) treTaskList.getModel()).insertNodeInto(newNode, node, node.getChildCount());
+		path = new TreePath(newNode.getPath());
+		treTaskList.scrollPathToVisible(path);
+		return path;
+	}
+
+	/**
+	 * Retrieves the current task path.
+	 * @return the current task path
+	 */
+	public TreePath getCurrentTaskPath() {
+		return treTaskList.getSelectionPath();
+	}
+
+	/**
+	 * Saves the current node state into the current task.
+	 * @param currentTask current task
+	 */
+	public void saveSurrentTaskState(TaskO currentTask) {
+		currentTask.setTaskName(txfTaskName.getText());
+		currentTask.setDescription(txaTaskDescription.getText());
+		currentTask.setMinutes(Integer.parseInt(spnMinutes.getValue().toString()));
+		currentTask.setHours(Integer.parseInt(spnHours.getValue().toString()));
+		currentTask.setDays(Integer.parseInt(spnDays.getValue().toString()));
+	}
+
 }
