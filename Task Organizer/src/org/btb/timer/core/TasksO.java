@@ -57,5 +57,5 @@ public class TasksO implements Serializable {
 	public TaskO getCurrentTask() {
 		return (TaskO) ((DefaultMutableTreeNode) currentTaskPath.getLastPathComponent()).getUserObject();
 	}
-	
+
 }
