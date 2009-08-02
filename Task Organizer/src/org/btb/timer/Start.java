@@ -23,12 +23,15 @@ public class Start {
 		TasksO tasksO = null;
 		try {
 			tasksO = (TasksO) DataStore.getObject(IConstants.DEFAULT_FILE_PATH);
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			e.printStackTrace();
+			//TODO change with proper error handling or message notification
+		}
 		
 		if (tasksO == null) {
 			tasksO = new TasksO();
 		}
-		new TimerC(new TasksO());
+		new TimerC(tasksO);
 	}
 
 }
