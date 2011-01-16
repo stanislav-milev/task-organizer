@@ -6,13 +6,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.Timer;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreePath;
 
 import org.btb.timer.core.TaskO;
-import org.btb.timer.core.TasksO;
-import org.btb.timer.gui.TimerV;
+import org.btb.timer.gui.TaskOrganizerV;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.GUIThread;
 import org.btb.timer.util.IConstants;
@@ -22,28 +18,31 @@ import org.btb.timer.util.IConstants;
  * @author Stanislav Milev
  * @date 13.09.2008
  */
-public class TimerC implements ActionListener, WindowListener, TreeSelectionListener {
+public class TimerC implements ActionListener, WindowListener {
 
-	private TimerV 	view;
-	private Timer 	timer;
-	private TaskO	currentTask;
-	private TasksO	taskList;
+	private TaskOrganizerV view;
+	private Timer timer;
 	
 	/**
-	 * Constructor.
-	 * @param timerO
+	 * Constructor for first time start.
 	 */
-	public TimerC(TasksO tasksO) {
-		view = new TimerV();
+	public TimerC() {
+		view = new TaskOrganizerV();
 		GUIThread gtView = new GUIThread(view);
 		timer = new Timer(IConstants.MINUTE, this);
 		gtView.start();
 		
 		setListeners(gtView);
 		view.setComponentsState(true);
-		taskList = tasksO;
-		currentTask = tasksO.getCurrentTask();
-		view.initOrganizer(tasksO);
+	}
+
+	/**
+	 * Constructor.
+	 * @param timerO
+	 */
+	public TimerC(TaskO timerO) {
+		this();
+		view.initFields(timerO);
 	}
 
 	/**
@@ -52,12 +51,10 @@ public class TimerC implements ActionListener, WindowListener, TreeSelectionList
 	 */
 	private void setListeners(GUIThread gtView) {
 		while(gtView.isNotReady()) {}
-		view.getBtnAddTask().addActionListener(this);
-		view.getBtnResetTimer().addActionListener(this);
-		view.getBtnStartTimer().addActionListener(this);
-		view.getBtnStopTimer().addActionListener(this);
-		view.getFrame().addWindowListener(this);
-		view.getTreTaskList().addTreeSelectionListener(this);
+		view.getBtnReset().addActionListener(this);
+		view.getBtnStart().addActionListener(this);
+		view.getBtnStop().addActionListener(this);
+		view.gerFrame().addWindowListener(this);
 	}
 
 	/* (non-Javadoc)
@@ -66,23 +63,16 @@ public class TimerC implements ActionListener, WindowListener, TreeSelectionList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object actionEventSource = e.getSource();
-		if (actionEventSource.equals(view.getBtnAddTask())) {
-			TreePath path = view.addNewTaskNode();
-			taskList.setTasksTree(view.getRoot());
-			taskList.setCurrentTaskPath(path);
-			showSelectedNode();
-		} else
-		
-		if (actionEventSource.equals(view.getBtnResetTimer())) {
+		if (actionEventSource.equals(view.getBtnReset())) {
 			view.setTime(0, 0, 0);
 		} else
 			
-		if (actionEventSource.equals(view.getBtnStartTimer())) {
+		if (actionEventSource.equals(view.getBtnStart())) {
 			view.setComponentsState(false);
 			timer.start();
 		} else
 			
-		if (actionEventSource.equals(view.getBtnStopTimer())) {
+		if (actionEventSource.equals(view.getBtnStop())) {
 			timer.stop();
 			view.setComponentsState(true);
 		} else
@@ -90,15 +80,6 @@ public class TimerC implements ActionListener, WindowListener, TreeSelectionList
 		if (actionEventSource.equals(timer)) {
 			adjustTime();
 		}
-	}
-
-	/**
-	 * Shows the data of the selected node.
-	 */
-	private void showSelectedNode() {
-		taskList.setCurrentTaskPath(view.getCurrentTaskPath());
-		currentTask = taskList.getCurrentTask();
-		view.initFields(currentTask);
 	}
 
 	/**
@@ -128,19 +109,10 @@ public class TimerC implements ActionListener, WindowListener, TreeSelectionList
 	@Override
 	public void windowClosing(WindowEvent e) {
 		timer.stop();
-		view.saveSurrentTaskState(currentTask);
 		view.setComponentsState(true);
-		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, taskList);
+		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
 	}
 
-	
-	@Override
-	public void valueChanged(TreeSelectionEvent e) {
-		view.saveSurrentTaskState(currentTask);
-		taskList.setCurrentTaskPath(e.getNewLeadSelectionPath());
-		showSelectedNode();
-	}
-	
 	
 	
 	/* (non-Javadoc)
@@ -178,5 +150,5 @@ public class TimerC implements ActionListener, WindowListener, TreeSelectionList
 	 */
 	@Override
 	public void windowOpened(WindowEvent e) {}
-
+	
 }
