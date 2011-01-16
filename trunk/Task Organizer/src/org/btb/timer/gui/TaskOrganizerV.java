@@ -1,6 +1,8 @@
 package org.btb.timer.gui;
 
 import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
@@ -21,146 +23,6 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 	
 	private static final long serialVersionUID = 2900548502443767184L;
 
-	/* (non-Javadoc)
-	 * @see org.btb.to.gui.IFrame#initGUI()
-	 */
-	public void initGUI() {
-		this.setTitle("Task Organizer");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container frameContentPane = this.getContentPane();
-//		frameContentPane.setLayout();
-		
-		
-		this.pack();
-		this.setVisible(true);
-		int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth())/2;
-		int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight())/2;
-		this.setLocation(x, y);
-	}
-	/**
-	private void initComponents() {
-		frame = new JFrame();
-		lblTaskName = new JLabel();
-		txfTaskName = new JTextField();
-		lblDays = new JLabel();
-		lblHours = new JLabel();
-		lblMinutes = new JLabel();
-		spnDays = new JSpinner();
-		spnHours = new JSpinner();
-		spnMinutes = new JSpinner();
-		btnStart = new JButton();
-		btnStop = new JButton();
-		btnReset = new JButton();
-		CellConstraints cc = new CellConstraints();
-
-		//======== frame ========
-		{
-			frameContentPane.setLayout(new FormLayout(
-				new ColumnSpec[] {
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC
-				},
-				new RowSpec[] {
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.LINE_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC
-				}));
-			((FormLayout)frameContentPane.getLayout()).setColumnGroups(new int[][] {{3, 5, 7}});
-			
-			//---- lblTaskName ----
-			lblTaskName.setText("Task name:");
-			frameContentPane.add(lblTaskName, cc.xywh(3, 3, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
-			frameContentPane.add(txfTaskName, cc.xywh(5, 3, 3, 1));
-			
-			//---- lblDays ----
-			lblDays.setText("Days");
-			frameContentPane.add(lblDays, cc.xywh(3, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
-			
-			//---- lblHours ----
-			lblHours.setText("Hours");
-			frameContentPane.add(lblHours, cc.xywh(5, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
-			
-			//---- lblMinutes ----
-			lblMinutes.setText("Minutes");
-			frameContentPane.add(lblMinutes, cc.xywh(7, 5, 1, 1, CellConstraints.CENTER, CellConstraints.DEFAULT));
-			
-			//---- spnDays ----
-			spnDays.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-			frameContentPane.add(spnDays, cc.xy(3, 7));
-			
-			//---- spnHours ----
-			spnHours.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-			frameContentPane.add(spnHours, cc.xy(5, 7));
-			
-			//---- spnMinutes ----
-			spnMinutes.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-			frameContentPane.add(spnMinutes, cc.xy(7, 7));
-			
-			//---- btnStart ----
-			btnStart.setText("Start");
-			frameContentPane.add(btnStart, cc.xy(3, 9));
-			
-			//---- btnStop ----
-			btnStop.setText("Stop");
-			frameContentPane.add(btnStop, cc.xy(5, 9));
-			
-			//---- btnReset ----
-			btnReset.setText("Reset");
-			frameContentPane.add(btnReset, cc.xy(7, 9));
-		}
-		// JFormDesigner - End of component initialization  //GEN-END:initComponents
-		
-	}
-**/
-	public String getTaskName() {
-		return txfTaskName.getText();
-	}
-
-	public int getHours() {
-		return Integer.parseInt(spnHours.getValue().toString());
-	}
-
-	public int getMinutes() {
-		return Integer.parseInt(spnMinutes.getValue().toString());
-	}
-
-	public JButton getBtnStop() {
-		return btnStop;
-	}
-
-	public JButton getBtnReset() {
-		return btnReset;
-	}
-
-	public int getDays() {
-		return Integer.parseInt(spnDays.getValue().toString());
-	}
-
-	public JButton getBtnStart() {
-		return btnStart;
-	}
-
-	public JFrame gerFrame() {
-		return frame;
-	}
-	
-	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	private JFrame frame;
 	private JLabel lblTaskName;
 	private JTextField txfTaskName;
 	private JLabel lblDays;
@@ -172,8 +34,86 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 	private JButton btnStart;
 	private JButton btnStop;
 	private JButton btnReset;
-	// JFormDesigner - End of variables declaration  //GEN-END:variables
+	
+	/* (non-Javadoc)
+	 * @see org.btb.to.gui.IFrame#initGUI()
+	 */
+	public void initGUI() {
+		this.setTitle("Task Organizer");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		Container fcp = this.getContentPane();
+		fcp.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		
+		lblTaskName = new JLabel("Task name:");
+		c.gridx = 0;
+		c.gridy = 0;
+		fcp.add(lblTaskName, c);
+		
+		txfTaskName = new JTextField();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		fcp.add(txfTaskName, c);
+		c.gridwidth = 1;
+		
+		lblDays = new JLabel("Days");
+		c.gridx = 0;
+		c.gridy = 1;
+		fcp.add(lblDays, c);
 
+		lblHours = new JLabel("Hours");
+		c.gridx = 1;
+		c.gridy = 1;
+		fcp.add(lblHours, c);
+
+		lblMinutes = new JLabel("Minutes");
+		c.gridx = 2;
+		c.gridy = 1;
+		fcp.add(lblMinutes, c);
+		
+		spnDays = new JSpinner();
+		spnDays.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		c.gridx = 0;
+		c.gridy = 2;
+		fcp.add(spnDays, c);
+		
+		spnHours = new JSpinner();
+		spnHours.setModel(new SpinnerNumberModel(0, 0, 23, 1));
+		c.gridx = 1;
+		c.gridy = 2;
+		fcp.add(spnHours, c);
+		
+		spnMinutes = new JSpinner();
+		spnMinutes.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+		c.gridx = 2;
+		c.gridy = 2;
+		fcp.add(spnMinutes, c);
+		
+		btnStart = new JButton("Start");
+		c.gridx = 0;
+		c.gridy = 3;
+		fcp.add(btnStart, c);
+
+		btnStop = new JButton("Stop");
+		c.gridx = 1;
+		c.gridy = 3;
+		fcp.add(btnStop, c);
+
+		btnReset = new JButton("Reset");
+		c.gridx = 2;
+		c.gridy = 3;
+		fcp.add(btnReset, c);
+		
+		this.pack();
+		this.setVisible(true);
+		int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth())/2;
+		int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight())/2;
+		this.setLocation(x, y);
+	}
+	
 	/**
 	 * Disables or enables specific components.
 	 * @param isTimerStopped
@@ -215,6 +155,34 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 		spnMinutes.setValue(new Integer(timerO.getMinutes()));
 		spnHours.setValue(new Integer(timerO.getHours()));
 		spnDays.setValue(new Integer(timerO.getDays()));
+	}
+
+	public String getTaskName() {
+		return txfTaskName.getText();
+	}
+
+	public int getHours() {
+		return Integer.parseInt(spnHours.getValue().toString());
+	}
+
+	public int getMinutes() {
+		return Integer.parseInt(spnMinutes.getValue().toString());
+	}
+
+	public JButton getBtnStop() {
+		return btnStop;
+	}
+
+	public JButton getBtnReset() {
+		return btnReset;
+	}
+
+	public int getDays() {
+		return Integer.parseInt(spnDays.getValue().toString());
+	}
+
+	public JButton getBtnStart() {
+		return btnStart;
 	}
 
 }
