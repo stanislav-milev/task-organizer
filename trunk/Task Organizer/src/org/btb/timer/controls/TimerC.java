@@ -54,7 +54,7 @@ public class TimerC implements ActionListener, WindowListener {
 		view.getBtnReset().addActionListener(this);
 		view.getBtnStart().addActionListener(this);
 		view.getBtnStop().addActionListener(this);
-		view.gerFrame().addWindowListener(this);
+		view.addWindowListener(this);
 	}
 
 	/* (non-Javadoc)
