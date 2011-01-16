@@ -13,7 +13,6 @@ public class TaskO implements Serializable {
 	private static final long serialVersionUID = 817955233404847856L;
 	
 	private String taskName;
-	private String description;
 	private int minutes;
 	private int hours;
 	private int days;
@@ -23,7 +22,6 @@ public class TaskO implements Serializable {
 	 */
 	public TaskO() {
 		taskName	= "";
-		description = "";
 		minutes		= 0;
 		hours		= 0;
 		days		= 0;
@@ -35,7 +33,6 @@ public class TaskO implements Serializable {
 	 */
 	public TaskO(String taskName) {
 		this.taskName	= taskName;
-		description 	= "";
 		minutes			= 0;
 		hours			= 0;
 		days			= 0;
@@ -44,14 +41,12 @@ public class TaskO implements Serializable {
 	/**
 	 * Constructor.
 	 * @param taskName
-	 * @param description
 	 * @param minutes
 	 * @param hours
 	 * @param days
 	 */
-	public TaskO(String taskName, String description, int minutes, int hours, int days) {
+	public TaskO(String taskName, int minutes, int hours, int days) {
 		this.taskName = taskName;
-		this.description = description;
 		this.minutes = minutes;
 		this.hours = hours;
 		this.days = days;
@@ -69,20 +64,6 @@ public class TaskO implements Serializable {
 	 */
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
