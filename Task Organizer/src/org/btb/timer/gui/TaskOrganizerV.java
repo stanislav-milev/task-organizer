@@ -1,8 +1,10 @@
 package org.btb.timer.gui;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
@@ -11,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import org.btb.timer.core.TaskO;
 
@@ -22,6 +25,8 @@ import org.btb.timer.core.TaskO;
 public class TaskOrganizerV extends JFrame implements IFrame {
 	
 	private static final long serialVersionUID = 2900548502443767184L;
+	
+	private static final int INSET = 2;
 
 	private JLabel lblTaskName;
 	private JTextField txfTaskName;
@@ -46,6 +51,7 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 		fcp.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(INSET, INSET, INSET, INSET);
 		
 		lblTaskName = new JLabel("Task name:");
 		c.gridx = 0;
@@ -60,16 +66,19 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 		c.gridwidth = 1;
 		
 		lblDays = new JLabel("Days");
+		lblDays.setHorizontalAlignment(SwingConstants.CENTER);
 		c.gridx = 0;
 		c.gridy = 1;
 		fcp.add(lblDays, c);
 
 		lblHours = new JLabel("Hours");
+		lblHours.setHorizontalAlignment(SwingConstants.CENTER);
 		c.gridx = 1;
 		c.gridy = 1;
 		fcp.add(lblHours, c);
 
 		lblMinutes = new JLabel("Minutes");
+		lblMinutes.setHorizontalAlignment(SwingConstants.CENTER);
 		c.gridx = 2;
 		c.gridy = 1;
 		fcp.add(lblMinutes, c);
@@ -93,16 +102,19 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 		fcp.add(spnMinutes, c);
 		
 		btnStart = new JButton("Start");
+		btnStart.setPreferredSize(new Dimension(67, 26));
 		c.gridx = 0;
 		c.gridy = 3;
 		fcp.add(btnStart, c);
 
 		btnStop = new JButton("Stop");
+		btnStop.setPreferredSize(new Dimension(67, 26));
 		c.gridx = 1;
 		c.gridy = 3;
 		fcp.add(btnStop, c);
 
 		btnReset = new JButton("Reset");
+		btnReset.setPreferredSize(new Dimension(67, 26));
 		c.gridx = 2;
 		c.gridy = 3;
 		fcp.add(btnReset, c);
