@@ -50,7 +50,13 @@ public class TimerC implements ActionListener, WindowListener {
 	 * @param gtView
 	 */
 	private void setListeners(GUIThread gtView) {
-		while(gtView.isNotReady()) {}
+		while(gtView.isNotReady()) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		view.getBtnReset().addActionListener(this);
 		view.getBtnStart().addActionListener(this);
 		view.getBtnStop().addActionListener(this);
