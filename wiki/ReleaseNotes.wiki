@@ -1,0 +1,10 @@
+#Release Notes for all versions.
+
+= v0.1 =
+== Features ==
+ # 1 task per program instance
+ # Timer of the spended time on the task
+ # On close the current task is saved (if you have several instances of the app only the last closed will be saved)
+ # On app start the last saved task is automatically loaded
+== Screen shot ==
+<img src="http://task-organizer.googlecode.com/svn/screenshots/TimerScreenshot.png" alt="Screenshot" />
