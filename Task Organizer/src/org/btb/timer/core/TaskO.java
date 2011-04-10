@@ -13,6 +13,7 @@ public class TaskO implements Serializable {
 	private static final long serialVersionUID = 817955233404847856L;
 	
 	private String taskName;
+	private String taskDescription;
 	private int minutes;
 	private int hours;
 	private int days;
@@ -21,10 +22,11 @@ public class TaskO implements Serializable {
 	 * Constructor.
 	 */
 	public TaskO() {
-		taskName	= "";
-		minutes		= 0;
-		hours		= 0;
-		days		= 0;
+		taskName = "";
+		taskDescription = "";
+		minutes = 0;
+		hours = 0;
+		days = 0;
 	}
 
 	/**
@@ -32,10 +34,11 @@ public class TaskO implements Serializable {
 	 * @param taskName
 	 */
 	public TaskO(String taskName) {
-		this.taskName	= taskName;
-		minutes			= 0;
-		hours			= 0;
-		days			= 0;
+		this.taskName = taskName;
+		taskDescription = "";
+		minutes = 0;
+		hours = 0;
+		days = 0;
 	}
 
 	/**
@@ -47,6 +50,22 @@ public class TaskO implements Serializable {
 	 */
 	public TaskO(String taskName, int minutes, int hours, int days) {
 		this.taskName = taskName;
+		this.minutes = minutes;
+		this.hours = hours;
+		this.days = days;
+		taskDescription = "";
+	}
+
+	/**
+	 * Constructor.
+	 * @param taskName
+	 * @param minutes
+	 * @param hours
+	 * @param days
+	 */
+	public TaskO(String taskName, String taskDescription, int minutes, int hours, int days) {
+		this.taskName = taskName;
+		this.taskDescription = taskDescription;
 		this.minutes = minutes;
 		this.hours = hours;
 		this.days = days;
@@ -110,6 +129,20 @@ public class TaskO implements Serializable {
 	
 	public String toString() {
 		return taskName;
+	}
+
+	/**
+	 * @return the taskDescription
+	 */
+	public String getTaskDescription() {
+		return taskDescription;
+	}
+
+	/**
+	 * @param taskDescription the taskDescription to set
+	 */
+	public void setTaskDescription(String taskDescription) {
+		this.taskDescription = taskDescription;
 	}
 	
 }
