@@ -26,7 +26,7 @@
 		</javac>
 	</target>
 	<target name="deploy" depends="compile">
-		<jar destfile="${dest.dir.dist}/Timer D.jar" basedir="${dest.dir.bin}" manifest="scripts/manifest.mf" />
+		<jar destfile="${dest.dir.dist}/Task Organizer.jar" basedir="${dest.dir.bin}" manifest="scripts/manifest.mf" />
 		<!--copy todir="${dest.dir.libs}">
 			<fileset dir="${src.dir.libs}" includes="*.jar" />
 		</copy-->
