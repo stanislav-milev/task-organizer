@@ -1,5 +1,7 @@
 #Release Notes for all versions.
-
+= v0.1.1 =
+== Changes ==
+ # Rewritten UI - resulted in no libs needed
 = v0.1 =
 == Features ==
  # 1 task per program instance
