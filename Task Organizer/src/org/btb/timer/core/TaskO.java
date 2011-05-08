@@ -17,6 +17,7 @@ public class TaskO implements Serializable {
 	private int minutes;
 	private int hours;
 	private int days;
+	private int seconds;
 	
 	/**
 	 * Constructor.
@@ -27,6 +28,7 @@ public class TaskO implements Serializable {
 		minutes = 0;
 		hours = 0;
 		days = 0;
+		seconds = 0;
 	}
 
 	/**
@@ -39,6 +41,7 @@ public class TaskO implements Serializable {
 		minutes = 0;
 		hours = 0;
 		days = 0;
+		seconds = 0;
 	}
 
 	/**
@@ -47,12 +50,14 @@ public class TaskO implements Serializable {
 	 * @param minutes
 	 * @param hours
 	 * @param days
+	 * @param seconds
 	 */
-	public TaskO(String taskName, int minutes, int hours, int days) {
+	public TaskO(String taskName, int minutes, int hours, int days, int seconds) {
 		this.taskName = taskName;
 		this.minutes = minutes;
 		this.hours = hours;
 		this.days = days;
+		this.seconds = seconds;
 		taskDescription = "";
 	}
 
@@ -62,13 +67,16 @@ public class TaskO implements Serializable {
 	 * @param minutes
 	 * @param hours
 	 * @param days
+	 * @param taskDescription
+	 * @param seconds
 	 */
-	public TaskO(String taskName, String taskDescription, int minutes, int hours, int days) {
+	public TaskO(String taskName, String taskDescription, int minutes, int hours, int days, int seconds) {
 		this.taskName = taskName;
 		this.taskDescription = taskDescription;
 		this.minutes = minutes;
 		this.hours = hours;
 		this.days = days;
+		this.seconds = seconds;
 	}
 
 	/**
@@ -143,6 +151,20 @@ public class TaskO implements Serializable {
 	 */
 	public void setTaskDescription(String taskDescription) {
 		this.taskDescription = taskDescription;
+	}
+
+	/**
+	 * @return the seconds
+	 */
+	public int getSeconds() {
+		return seconds;
+	}
+
+	/**
+	 * @param seconds the seconds to set
+	 */
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
 	}
 	
 }

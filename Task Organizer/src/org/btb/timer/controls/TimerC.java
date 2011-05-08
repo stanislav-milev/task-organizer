@@ -29,7 +29,7 @@ public class TimerC implements ActionListener, WindowListener {
 	public TimerC() {
 		view = new TaskOrganizerV();
 		GUIThread gtView = new GUIThread(view);
-		timer = new Timer(IConstants.MINUTE, this);
+		timer = new Timer(IConstants.SECONDS, this);
 		gtView.start();
 		
 		setListeners(gtView);
@@ -70,7 +70,7 @@ public class TimerC implements ActionListener, WindowListener {
 	public void actionPerformed(ActionEvent e) {
 		Object actionEventSource = e.getSource();
 		if (actionEventSource.equals(view.getBtnReset())) {
-			view.setTime(0, 0, 0);
+			view.setTime(0, 0, 0, 0);
 		} else
 			
 		if (actionEventSource.equals(view.getBtnStart())) {
@@ -93,20 +93,25 @@ public class TimerC implements ActionListener, WindowListener {
 	 */
 	private void adjustTime() {
 		int minutes = view.getMinutes();
-		int hours		= view.getHours();
-		int days		= view.getDays();
+		int hours = view.getHours();
+		int days = view.getDays();
+		int seconds = view.getSeconds();
 
-		minutes++;
-		if (minutes == IConstants.MAX_MINUTES) {
-			minutes = 0;
-			hours++;
-			if (hours == IConstants.MAX_HOURS) {
-				hours = 0;
-				days++;
+		seconds++;
+		if (seconds == IConstants.MAX_SECONDS) {
+			seconds = 0;
+			minutes++;
+			if (minutes == IConstants.MAX_MINUTES) {
+				minutes = 0;
+				hours++;
+				if (hours == IConstants.MAX_HOURS) {
+					hours = 0;
+					days++;
+				}
 			}
 		}
 			
-		view.setTime(minutes, hours, days);
+		view.setTime(minutes, hours, days, seconds);
 	}
 
 	/* (non-Javadoc)
