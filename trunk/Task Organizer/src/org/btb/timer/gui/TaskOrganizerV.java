@@ -39,6 +39,7 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 	private JButton btnStart;
 	private JButton btnStop;
 	private JButton btnReset;
+	private int seconds = 0;
 	
 	/* (non-Javadoc)
 	 * @see org.btb.to.gui.IFrame#initGUI()
@@ -145,17 +146,18 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 	/**
 	 * @param timerO
 	 */
-	public void setTime(int minutes, int hours, int days) {
+	public void setTime(int minutes, int hours, int days, int seconds) {
 		spnMinutes.setValue(new Integer(minutes));
 		spnHours.setValue(new Integer(hours));
 		spnDays.setValue(new Integer(days));
+		this.seconds = seconds;
 	}
 
 	/**
 	 * @return
 	 */
 	public TaskO getTimerO() {
-		return new TaskO(getTaskName(), getMinutes(), getHours(), getDays());
+		return new TaskO(getTaskName(), getMinutes(), getHours(), getDays(), seconds);
 	}
 
 	/**
@@ -167,6 +169,7 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 		spnMinutes.setValue(new Integer(timerO.getMinutes()));
 		spnHours.setValue(new Integer(timerO.getHours()));
 		spnDays.setValue(new Integer(timerO.getDays()));
+		seconds = timerO.getSeconds();
 	}
 
 	public String getTaskName() {
@@ -179,6 +182,10 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 
 	public int getMinutes() {
 		return Integer.parseInt(spnMinutes.getValue().toString());
+	}
+	
+	public int getSeconds() {
+		return seconds;
 	}
 
 	public JButton getBtnStop() {
