@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.btb.timer.core.TaskO;
 import org.btb.timer.gui.TaskOrganizerV;
@@ -18,7 +20,7 @@ import org.btb.timer.util.IConstants;
  * @author Stanislav Milev
  * @date 13.09.2008
  */
-public class TimerC implements ActionListener, WindowListener {
+public class TimerC implements ActionListener, WindowListener, DocumentListener {
 
 	private TaskOrganizerV view;
 	private Timer timer;
@@ -60,6 +62,7 @@ public class TimerC implements ActionListener, WindowListener {
 		view.getBtnReset().addActionListener(this);
 		view.getBtnStart().addActionListener(this);
 		view.getBtnStop().addActionListener(this);
+		view.getTxfTaskName().getDocument().addDocumentListener(this);
 		view.addWindowListener(this);
 	}
 
@@ -75,12 +78,14 @@ public class TimerC implements ActionListener, WindowListener {
 			
 		if (actionEventSource.equals(view.getBtnStart())) {
 			view.setComponentsState(false);
+			DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
 			timer.start();
 		} else
 			
 		if (actionEventSource.equals(view.getBtnStop())) {
 			timer.stop();
 			view.setComponentsState(true);
+			DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
 		} else
 			
 		if (actionEventSource.equals(timer)) {
@@ -101,6 +106,9 @@ public class TimerC implements ActionListener, WindowListener {
 		if (seconds == IConstants.MAX_SECONDS) {
 			seconds = 0;
 			minutes++;
+			if ((minutes % IConstants.AUTO_SAVE_INTERVAL) == 0 || minutes == 0) {
+				DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
+			}
 			if (minutes == IConstants.MAX_MINUTES) {
 				minutes = 0;
 				hours++;
@@ -124,6 +132,22 @@ public class TimerC implements ActionListener, WindowListener {
 		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.DocumentListener#insertUpdate(java.awt.event.DocumentEvent)
+	 */
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		view.setTitle(view.getTaskName() + " - Task Organizer");
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.DocumentListener#removeUpdate(java.awt.event.DocumentEvent)
+	 */
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		view.setTitle(view.getTaskName() + " - Task Organizer");
+	}
+	
 	
 	
 	/* (non-Javadoc)
@@ -161,5 +185,8 @@ public class TimerC implements ActionListener, WindowListener {
 	 */
 	@Override
 	public void windowOpened(WindowEvent e) {}
-	
+
+	@Override
+	public void changedUpdate(DocumentEvent arg0) {}
+
 }
