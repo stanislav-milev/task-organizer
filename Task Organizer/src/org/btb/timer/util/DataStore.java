@@ -29,6 +29,7 @@ public class DataStore {
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(new File(path)));
 			out.writeObject(timerO);
+			System.out.println("Saving");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

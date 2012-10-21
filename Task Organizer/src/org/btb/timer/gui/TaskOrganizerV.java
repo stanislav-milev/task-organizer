@@ -203,5 +203,9 @@ public class TaskOrganizerV extends JFrame implements IFrame {
 	public JButton getBtnStart() {
 		return btnStart;
 	}
+	
+	public JTextField getTxfTaskName() {
+		return txfTaskName;
+	}
 
 }
