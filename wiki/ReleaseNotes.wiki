@@ -3,6 +3,8 @@
 == Changes ==
  # Auto save every 5 min (if the timer is started) and on start/stop
  # The name of the task is added to the title of the window
+== Screen shot ==
+<img src="http://task-organizer.googlecode.com/svn/screenshots/TO-v0.1.2.png" alt="Screenshot" />
 = v0.1.1 =
 == Changes ==
  # Rewritten UI - resulted in no libs needed
