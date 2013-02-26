@@ -1,4 +1,8 @@
 #Release Notes for all versions.
+= v0.1.2 =
+== Changes ==
+ # Auto save every 5 min and on start/stop
+ # The name of the task is added to the title of the window
 = v0.1.1 =
 == Changes ==
  # Rewritten UI - resulted in no libs needed
