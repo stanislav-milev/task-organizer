@@ -10,7 +10,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.btb.timer.core.TaskO;
-import org.btb.timer.gui.TaskOrganizerV;
+import org.btb.timer.gui.TaskPanelV;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.GUIThread;
 import org.btb.timer.util.IConstants;
@@ -22,14 +22,14 @@ import org.btb.timer.util.IConstants;
  */
 public class TimerC implements ActionListener, WindowListener, DocumentListener {
 
-	private TaskOrganizerV view;
+	private TaskPanelV view;
 	private Timer timer;
 	
 	/**
 	 * Constructor for first time start.
 	 */
 	public TimerC() {
-		view = new TaskOrganizerV();
+		view = new TaskPanelV();
 		GUIThread gtView = new GUIThread(view);
 		timer = new Timer(IConstants.SECONDS, this);
 		gtView.start();
