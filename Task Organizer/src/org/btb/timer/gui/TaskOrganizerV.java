@@ -28,6 +28,7 @@ public class TaskOrganizerV extends JFrame {
 	
 	private JButton btnNewTask;
 	private JPanel pnlTasks;
+	private JScrollPane spnTasks;
 	
 	private int initialNumberOfTasks = 0;
 	private int maxDisplayedTasks;
@@ -56,27 +57,16 @@ public class TaskOrganizerV extends JFrame {
 		
 		pnlTasks = new JPanel();
 		pnlTasks.setLayout(new GridBagLayout());
-		JScrollPane spnTasks = new JScrollPane(pnlTasks);
+		spnTasks = new JScrollPane(pnlTasks);
 		spnTasks.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		fcp.add(spnTasks, BorderLayout.PAGE_END);
 		this.pack();
-		this.setVisible(true);
 		pnlTasks = (JPanel) spnTasks.getViewport().getView();
-
 		for (int i = 0; i < initialNumberOfTasks; i++) {
 			addTask(new TaskPanelV());
-			if (i == maxDisplayedTasks - 1) {
-				this.pack();
-				spnTasks.setPreferredSize(spnTasks.getSize());
-			}
-			if (i >=  maxDisplayedTasks) {
-				this.pack();
-			}
-		}
-		if (maxDisplayedTasks > initialNumberOfTasks) {
-			this.pack();
 		}
 
+		this.setVisible(true);
 		int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth())/2;
 		int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight())/2;
 		this.setLocation(x, y);
@@ -93,6 +83,10 @@ public class TaskOrganizerV extends JFrame {
 		c.gridx = 0;
 		c.gridy = pnlTasks.getComponentCount();
 		pnlTasks.add(newTask, c);
+		this.pack();
+		if (pnlTasks.getComponentCount() == maxDisplayedTasks) {
+			spnTasks.setPreferredSize(spnTasks.getSize());
+		}
 	}
 
 	/**
