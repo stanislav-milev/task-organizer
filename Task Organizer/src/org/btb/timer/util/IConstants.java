@@ -21,9 +21,11 @@ public interface IConstants {
 	int DEFAULT_AUTO_SAVE_INTERVAL = 5; //in minutes
 	//Default storage file path.
 	String DEFAULT_SAVE_FILE_PATH = "saved data.dat";
+	int DEFAULT_MAX_DISPLAYED_TASKS = 5;
 	
 	/*
 	 * Parameters
 	 */
+	String MAX_DISPLAYED_TASKS = "gui.maxDisplayedTasks";
 	
 }
