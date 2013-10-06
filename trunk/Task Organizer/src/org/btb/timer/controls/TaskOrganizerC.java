@@ -23,7 +23,7 @@ public class TaskOrganizerC implements ActionListener {
 	 * Constructor.
 	 */
 	public TaskOrganizerC() {
-		GUIThread gtView = new GUIThread(1);
+		GUIThread gtView = new GUIThread(4);
 		gtView.start();
 		view = gtView.getGui();
 		

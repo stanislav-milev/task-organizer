@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import org.btb.timer.util.Configuration;
+
 /**
  * @author Stanislav Milev
  * @created on Oct 2, 2013
@@ -28,12 +30,14 @@ public class TaskOrganizerV extends JFrame {
 	private JPanel pnlTasks;
 	
 	private int initialNumberOfTasks = 0;
+	private int maxDisplayedTasks;
 
 	/**
 	 * Constructor.
 	 */
 	public TaskOrganizerV(int initialNumberOfTasks) {
 		this.initialNumberOfTasks = initialNumberOfTasks;
+		maxDisplayedTasks = Configuration.getInstance().getMaxDisplayedTasks();
 	}
 
 	/**
@@ -55,13 +59,24 @@ public class TaskOrganizerV extends JFrame {
 		JScrollPane spnTasks = new JScrollPane(pnlTasks);
 		spnTasks.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		fcp.add(spnTasks, BorderLayout.PAGE_END);
+		this.pack();
+		this.setVisible(true);
+		pnlTasks = (JPanel) spnTasks.getViewport().getView();
 
 		for (int i = 0; i < initialNumberOfTasks; i++) {
 			addTask(new TaskPanelV());
+			if (i == maxDisplayedTasks - 1) {
+				this.pack();
+				spnTasks.setPreferredSize(spnTasks.getSize());
+			}
+			if (i >=  maxDisplayedTasks) {
+				this.pack();
+			}
 		}
-		
-		this.pack();
-		this.setVisible(true);
+		if (maxDisplayedTasks > initialNumberOfTasks) {
+			this.pack();
+		}
+
 		int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth())/2;
 		int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight())/2;
 		this.setLocation(x, y);
