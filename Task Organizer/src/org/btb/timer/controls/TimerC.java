@@ -80,14 +80,14 @@ public class TimerC implements ActionListener, WindowListener, DocumentListener 
 			
 		if (actionEventSource.equals(view.getBtnStart())) {
 			view.setComponentsState(false);
-			DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
+			DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
 			timer.start();
 		} else
 			
 		if (actionEventSource.equals(view.getBtnStop())) {
 			timer.stop();
 			view.setComponentsState(true);
-			DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
+			DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
 		} else
 			
 		if (actionEventSource.equals(timer)) {
@@ -109,7 +109,7 @@ public class TimerC implements ActionListener, WindowListener, DocumentListener 
 			seconds = 0;
 			minutes++;
 			if ((minutes % IConstants.DEFAULT_AUTO_SAVE_INTERVAL) == 0 || minutes == 0) {
-				DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
+				DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
 			}
 			if (minutes == IConstants.MAX_MINUTES) {
 				minutes = 0;
@@ -131,7 +131,7 @@ public class TimerC implements ActionListener, WindowListener, DocumentListener 
 	public void windowClosing(WindowEvent e) {
 		timer.stop();
 		view.setComponentsState(true);
-		DataStore.saveObject(IConstants.DEFAULT_FILE_PATH, view.getTimerO());
+		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
 	}
 
 	/* (non-Javadoc)

@@ -25,7 +25,7 @@ public class Start {
 		new TaskOrganizerC();
 //		TaskO timerO = null;
 //		try {
-//			timerO = (TaskO) DataStore.getObject(IConstants.DEFAULT_FILE_PATH);
+//			timerO = (TaskO) DataStore.getObject(IConstants.DEFAULT_SAVE_FILE_PATH);
 //		} catch (IOException e) {}
 //		
 //		if (timerO != null) {
