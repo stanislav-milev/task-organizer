@@ -1,0 +1,1 @@
+start /b javaw -jar "Task Organizer.jar"
