@@ -20,7 +20,7 @@ public interface IConstants {
 	 */
 	int DEFAULT_AUTO_SAVE_INTERVAL = 5; //in minutes
 	//Default storage file path.
-	String DEFAULT_FILE_PATH = "saved data.dat";
+	String DEFAULT_SAVE_FILE_PATH = "saved data.dat";
 	
 	/*
 	 * Parameters
