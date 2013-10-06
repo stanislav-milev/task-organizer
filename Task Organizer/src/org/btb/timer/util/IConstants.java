@@ -13,9 +13,17 @@ public interface IConstants {
 	int MAX_HOURS = 24;
 	int MAX_SECONDS = 60;
 	
-	int AUTO_SAVE_INTERVAL = 5; //in minutes
+	String CONFIGURATION = "configuration.properties";
 	
-	/** Default storage file path. */
+	/*
+	 * Default parameter values
+	 */
+	int DEFAULT_AUTO_SAVE_INTERVAL = 5; //in minutes
+	//Default storage file path.
 	String DEFAULT_FILE_PATH = "saved data.dat";
+	
+	/*
+	 * Parameters
+	 */
 	
 }
