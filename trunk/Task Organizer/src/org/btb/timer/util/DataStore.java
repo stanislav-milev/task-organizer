@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-import org.btb.timer.core.TaskO;
+import org.btb.timer.data.TaskO;
 
 /**
  * Utility class for storing and loading data.
@@ -18,6 +18,8 @@ import org.btb.timer.core.TaskO;
  */
 public class DataStore {
 
+	//TODO delete if not used
+	
 	/**
 	 * Saves an object into a file.
 	 * 

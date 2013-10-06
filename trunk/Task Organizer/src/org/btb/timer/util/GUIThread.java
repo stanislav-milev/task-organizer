@@ -1,6 +1,6 @@
 package org.btb.timer.util;
 
-import org.btb.timer.gui.IFrame;
+import org.btb.timer.gui.TaskOrganizerV;
 
 
 /**
@@ -10,23 +10,19 @@ import org.btb.timer.gui.IFrame;
  */
 public class GUIThread extends Thread {
 
-	private IFrame frame;
+	private TaskOrganizerV gui;
 	private boolean isNotReady = true;
 	
-	/**
-	 * Constructor.
-	 * @param frame
-	 */
-	public GUIThread(IFrame frame) {
-		this.frame = frame;
+	public GUIThread(int initialNumberOfTasks) {
+		gui = new TaskOrganizerV(initialNumberOfTasks);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
-		frame.initGUI();
+		gui.initGui();
 		isNotReady = false;
 	}
 
@@ -36,5 +32,12 @@ public class GUIThread extends Thread {
 	public boolean isNotReady() {
 		return isNotReady;
 	}
-	
+
+	/**
+	 * @return the gui
+	 */
+	public TaskOrganizerV getGui() {
+		return gui;
+	}
+
 }
