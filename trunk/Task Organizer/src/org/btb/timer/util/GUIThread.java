@@ -13,16 +13,12 @@ public class GUIThread extends Thread {
 	private TaskOrganizerV gui;
 	private boolean isNotReady = true;
 	
-	public GUIThread(int initialNumberOfTasks) {
-		gui = new TaskOrganizerV(initialNumberOfTasks);
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
-		gui.initGui();
+		gui = new TaskOrganizerV();
 		isNotReady = false;
 	}
 
