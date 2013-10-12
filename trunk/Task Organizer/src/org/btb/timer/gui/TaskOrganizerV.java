@@ -77,6 +77,12 @@ public class TaskOrganizerV extends JFrame {
 			}
 		}
 		this.pack();
+		
+		//if this is the second task, enable the remove button of the first one
+		if (pnlTasks.getComponentCount() == 2) {
+			TaskPanelV lastTask = (TaskPanelV) pnlTasks.getComponent(0);
+			lastTask.getBtnDelete().setEnabled(true);
+		}
 	}
 
 	/**
@@ -91,6 +97,12 @@ public class TaskOrganizerV extends JFrame {
 			spnTasks.setPreferredSize(spnTasks.getSize());
 		}
 		this.pack();
+		
+		//if one element has left, disable it's remove button
+		if (pnlTasks.getComponentCount() == 1) {
+			TaskPanelV lastTask = (TaskPanelV) pnlTasks.getComponent(0);
+			lastTask.getBtnDelete().setEnabled(false);
+		}
 	}
 
 	/**
