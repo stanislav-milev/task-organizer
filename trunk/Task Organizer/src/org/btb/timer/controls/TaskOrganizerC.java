@@ -2,24 +2,33 @@ package org.btb.timer.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.Timer;
 
 import org.apache.log4j.Logger;
 import org.btb.timer.gui.TaskOrganizerV;
 import org.btb.timer.gui.TaskPanelV;
+import org.btb.timer.util.DataStore;
 import org.btb.timer.util.GUIThread;
+import org.btb.timer.util.IConstants;
 
 /**
  * Controller of the Task Organizer
  * @author Stanislav Milev
  * @created on Oct 3, 2013
  */
-public class TaskOrganizerC implements ActionListener {
+public class TaskOrganizerC implements ActionListener, WindowListener {
 
 	static Logger log = Logger.getLogger(TaskOrganizerC.class);
 
 	private TaskOrganizerV view;
+	private ArrayList<TaskPanelV> tasks;
+	private TaskPanelV currentTask;
+	private Timer timer;
 
 	/**
 	 * Constructor.
@@ -27,6 +36,8 @@ public class TaskOrganizerC implements ActionListener {
 	public TaskOrganizerC() {
 		GUIThread gtView = new GUIThread();
 		gtView.start();
+		tasks = new ArrayList<TaskPanelV>();
+		timer = new Timer(IConstants.SECONDS, this);
 		
 		setListeners(gtView);
 		for (int i = 0; i < 4; i++) {
@@ -34,7 +45,16 @@ public class TaskOrganizerC implements ActionListener {
 		}
 		view.showTheUI();
 	}
-	
+
+//	/**
+//	 * Constructor.
+//	 * @param timerO
+//	 */
+//	public TaskOrganizerC(TaskO timerO) {
+//		this();
+//		view.initFields(timerO);
+//	}
+
 	/**
 	 * Initializes listeners.
 	 * @param gtView
@@ -49,6 +69,7 @@ public class TaskOrganizerC implements ActionListener {
 		}
 		view = gtView.getGui();
 		view.getBtnNewTask().addActionListener(this);
+		view.addWindowListener(this);
 	}
 
 	@Override
@@ -59,10 +80,92 @@ public class TaskOrganizerC implements ActionListener {
 		} else if (actionEventSource instanceof JButton) {
 			if ("Delete".equals(((JButton) actionEventSource).getText())) {
 				removeTask((TaskPanelV) ((JButton) actionEventSource).getParent());
+			} else if ("Start".equals(((JButton) actionEventSource).getText())) {
+				startTask((TaskPanelV) ((JButton) actionEventSource).getParent());
+			} else if ("Stop".equals(((JButton) actionEventSource).getText())) {
+				stopTask((TaskPanelV) ((JButton) actionEventSource).getParent());
+			} else if ("Reset".equals(((JButton) actionEventSource).getText())) {
+				resetTask((TaskPanelV) ((JButton) actionEventSource).getParent());
 			}
 		}		
+
+		if (actionEventSource.equals(timer)) {
+			adjustTime();
+		}
 	}
 
+	/**
+	 * Calculates the current state of timer.
+	 */
+	private void adjustTime() {
+		int minutes = currentTask.getMinutes();
+		int hours = currentTask.getHours();
+		int days = currentTask.getDays();
+		int seconds = currentTask.getSeconds();
+
+		seconds++;
+		if (seconds == IConstants.MAX_SECONDS) {
+			seconds = 0;
+			minutes++;
+			if ((minutes % IConstants.DEFAULT_AUTO_SAVE_INTERVAL) == 0 || minutes == 0) {
+				DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, currentTask.getTimerO());
+			}
+			if (minutes == IConstants.MAX_MINUTES) {
+				minutes = 0;
+				hours++;
+				if (hours == IConstants.MAX_HOURS) {
+					hours = 0;
+					days++;
+				}
+			}
+		}
+			
+		currentTask.setTime(minutes, hours, days, seconds);
+	}
+
+	/**
+	 * Starts the timer of the given task.
+	 * @param task for starting
+	 */
+	private void startTask(TaskPanelV task) {
+		log.info("Starting task : " + task.getTaskName());
+		//stop the current task
+		if (currentTask != null) {
+			stopTask(currentTask);
+		}
+		currentTask = task;
+		//start the new task
+		timer.start();
+		//change the state of the buttons and fields
+		task.setComponentsState(false);
+		//save state
+//		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
+	}
+
+	/**
+	 * Stops the timer of the given task.
+	 * @param task for stopping
+	 */
+	private void stopTask(TaskPanelV task) {
+		log.info("Stopping task : " + task.getTaskName());
+		currentTask = null;
+		//stop task
+		timer.stop();
+		//change the state of the buttons and fields
+		task.setComponentsState(true);
+		//save state
+//		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
+	}
+
+	/**
+	 * Resets the time of the task.
+	 * @param task for reseting it's time
+	 */
+	private void resetTask(TaskPanelV task) {
+		log.info("Starting task : " + task.getTaskName());
+		task.setTime(0, 0, 0, 0);
+	}
+	
 	/**
 	 * Removes the given Tasks from the list.
 	 * @param task for removal
@@ -71,7 +174,10 @@ public class TaskOrganizerC implements ActionListener {
 		log.info("Removing task : " + task.getTaskName());
 		
 		task.getBtnDelete().removeActionListener(this);
-		
+		task.getBtnStart().removeActionListener(this);
+		task.getBtnStop().removeActionListener(this);
+		task.getBtnReset().removeActionListener(this);
+		tasks.remove(task);
 		view.removeTask(task);
 	}
 
@@ -84,8 +190,41 @@ public class TaskOrganizerC implements ActionListener {
 			log.info("Adding a new task.");
 		}
 		TaskPanelV newTask = new TaskPanelV();
+		tasks.add(newTask);
 		view.addTask(newTask);
 		newTask.getBtnDelete().addActionListener(this);
+		newTask.getBtnStart().addActionListener(this);
+		newTask.getBtnStop().addActionListener(this);
+		newTask.getBtnReset().addActionListener(this);
+		//setState
+		newTask.setComponentsState(true);
 	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 */
+	@Override
+	public void windowClosing(WindowEvent e) {
+		timer.stop();
+//		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) { }
+
+	@Override
+	public void windowClosed(WindowEvent e) { }
+
+	@Override
+	public void windowIconified(WindowEvent e) { }
+
+	@Override
+	public void windowDeiconified(WindowEvent e) { }
+
+	@Override
+	public void windowActivated(WindowEvent e) { }
+
+	@Override
+	public void windowDeactivated(WindowEvent e) { }
 
 }
