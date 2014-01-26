@@ -10,8 +10,6 @@ import java.io.Serializable;
  */
 public class TaskO implements Serializable {
 
-	//TODO delete if not used
-	
 	private static final long serialVersionUID = 817955233404847856L;
 	
 	private String taskName;
