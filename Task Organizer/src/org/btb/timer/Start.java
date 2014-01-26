@@ -1,9 +1,9 @@
 package org.btb.timer;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.btb.timer.controls.TaskOrganizerC;
-import org.btb.timer.controls.TimerC;
 import org.btb.timer.data.TaskO;
 import org.btb.timer.util.DataStore;
 import org.btb.timer.util.IConstants;
@@ -15,23 +15,17 @@ import org.btb.timer.util.IConstants;
  */
 public class Start {
 
-	//TODO cleanup
-	
 	/**
 	 * Main method.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new TaskOrganizerC();
-//		TaskO timerO = null;
-//		try {
-//			timerO = (TaskO) DataStore.getObject(IConstants.DEFAULT_SAVE_FILE_PATH);
-//		} catch (IOException e) {}
-//		
-//		if (timerO != null) {
-//			new TimerC(timerO);
-//		} else
-//		new TimerC();
+		List<TaskO> tasks = null;
+		try {
+			tasks = (List<TaskO>) DataStore.getObject(IConstants.DEFAULT_SAVE_FILE_PATH);
+		} catch (IOException e) {}
+
+		new TaskOrganizerC(tasks);
 	}
 
 }
