@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.Timer;
 
 import org.apache.log4j.Logger;
+import org.btb.timer.data.TaskO;
 import org.btb.timer.gui.TaskOrganizerV;
 import org.btb.timer.gui.TaskPanelV;
 import org.btb.timer.util.DataStore;
@@ -32,28 +34,27 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 
 	/**
 	 * Constructor.
+	 * @param tasksData a list of TaskO
 	 */
-	public TaskOrganizerC() {
+	public TaskOrganizerC(List<TaskO> tasksData) {
 		GUIThread gtView = new GUIThread();
 		gtView.start();
 		tasks = new ArrayList<TaskPanelV>();
 		timer = new Timer(IConstants.SECONDS, this);
 		
 		setListeners(gtView);
-		for (int i = 0; i < 4; i++) {
-			addNewTask(true);
+		int numberOfTasks = IConstants.DEFAULT_NUMBER_OF_TASKS;
+		if (tasksData != null) {
+			numberOfTasks = tasksData.size();
+		}
+		for (int i = 0; i < numberOfTasks; i++) {
+			TaskPanelV task = addNewTask(true);
+			if (tasksData != null) {
+				task.initFields(tasksData.get(i));
+			}
 		}
 		view.showTheUI();
 	}
-
-//	/**
-//	 * Constructor.
-//	 * @param timerO
-//	 */
-//	public TaskOrganizerC(TaskO timerO) {
-//		this();
-//		view.initFields(timerO);
-//	}
 
 	/**
 	 * Initializes listeners.
@@ -108,7 +109,7 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 			seconds = 0;
 			minutes++;
 			if ((minutes % IConstants.DEFAULT_AUTO_SAVE_INTERVAL) == 0 || minutes == 0) {
-				DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, currentTask.getTimerO());
+				saveState();
 			}
 			if (minutes == IConstants.MAX_MINUTES) {
 				minutes = 0;
@@ -139,7 +140,18 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		//change the state of the buttons and fields
 		task.setComponentsState(false);
 		//save state
-//		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
+		saveState();
+	}
+
+	/**
+	 * Saves the current state of the tasks.
+	 */
+	private void saveState() {
+		List<TaskO> tasksData = new ArrayList<TaskO>();
+		for (int i = 0; i < tasks.size(); i++) {
+			tasksData.add(tasks.get(i).getTimerO());
+		}
+		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, tasksData);
 	}
 
 	/**
@@ -154,7 +166,7 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		//change the state of the buttons and fields
 		task.setComponentsState(true);
 		//save state
-//		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
+		saveState();
 	}
 
 	/**
@@ -184,8 +196,9 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 	/**
 	 * Adds a new Task panel and sets the listeners to its components.
 	 * @param isLoadingPhase true if the adding is executing during the initial loading of tasks
+	 * @return the newly created task
 	 */
-	private void addNewTask(boolean isLoadingPhase) {
+	private TaskPanelV addNewTask(boolean isLoadingPhase) {
 		if (!isLoadingPhase) {
 			log.info("Adding a new task.");
 		}
@@ -198,6 +211,7 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		newTask.getBtnReset().addActionListener(this);
 		//setState
 		newTask.setComponentsState(true);
+		return newTask;
 	}
 
 	/* (non-Javadoc)
@@ -206,7 +220,7 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		timer.stop();
-//		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, view.getTimerO());
+		saveState();
 	}
 
 	@Override
