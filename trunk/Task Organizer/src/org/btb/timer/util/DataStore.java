@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.btb.timer.data.TaskO;
 
 /**
@@ -18,27 +20,27 @@ import org.btb.timer.data.TaskO;
  */
 public class DataStore {
 
-	//TODO delete if not used
-	
+	static Logger log = Logger.getLogger(DataStore.class);
+
 	/**
 	 * Saves an object into a file.
 	 * 
 	 * @param path	the path of the file
-	 * @param timerO the object that will be stored in the file
+	 * @param tasks the object that will be stored in the file
 	 */
-	public static void saveObject(String path, TaskO timerO) {
+	public static void saveObject(String path, List<TaskO> tasks) {
 		ObjectOutput out = null;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(new File(path)));
-			out.writeObject(timerO);
-			System.out.println("Saving");
+			out.writeObject(tasks);
+			log.info("Saving");
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.fatal("Can't save to file.", e);
 		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.fatal("Can't save to file.", e);
 			}
 		}
 	}
@@ -59,14 +61,14 @@ public class DataStore {
 		} catch (FileNotFoundException e) {
 			throw new IOException(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.fatal("Can't read from file.", e);
 		} 
 		try {
 			result = in.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			log.fatal("Can't read from file.", e);
 		} catch (ClassCastException e) {
-			System.out.println("There is no correct data in the file.");
+			log.error("There is no correct data in the file.");
 			return null;
 		} finally {
 			in.close();
