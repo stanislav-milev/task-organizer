@@ -22,6 +22,7 @@ public interface IConstants {
 	//Default storage file path.
 	String DEFAULT_SAVE_FILE_PATH = "saved data.dat";
 	int DEFAULT_MAX_DISPLAYED_TASKS = 5;
+	int DEFAULT_NUMBER_OF_TASKS = 3;
 	
 	/*
 	 * Parameters
