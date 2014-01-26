@@ -50,16 +50,15 @@ public class TaskOrganizerV extends JFrame {
 		fcp.add(spnTasks, BorderLayout.PAGE_END);
 		this.pack();
 		pnlTasks = (JPanel) spnTasks.getViewport().getView();
-		
-		int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth())/2;
-		int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight())/2;
-		this.setLocation(x, y);
 	}
 
 	/**
 	 * Shows the UI.
 	 */
 	public void showTheUI() {
+		int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth())/2;
+		int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight())/2;
+		this.setLocation(x, y);
 		this.setVisible(true);
 	}
 
