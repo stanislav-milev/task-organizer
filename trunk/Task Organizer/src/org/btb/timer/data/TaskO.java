@@ -136,7 +136,7 @@ public class TaskO implements Serializable {
 	}
 	
 	public String toString() {
-		return taskName;
+		return taskName + "-" + days + "-" + hours + "-" + minutes + "-" + seconds;
 	}
 
 	/**
