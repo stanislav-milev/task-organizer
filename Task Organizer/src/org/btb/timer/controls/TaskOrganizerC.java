@@ -219,7 +219,9 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
+		//stop task
 		timer.stop();
+		//save state
 		saveState();
 	}
 
