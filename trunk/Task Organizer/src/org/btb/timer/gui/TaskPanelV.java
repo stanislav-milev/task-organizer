@@ -6,12 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.text.DefaultFormatter;
 
 import org.btb.timer.data.TaskO;
 
@@ -86,6 +89,7 @@ public class TaskPanelV extends JPanel {
 		
 		spnDays = new JSpinner();
 		spnDays.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		setSpinnerToCommitOnValidEdit(spnDays);
 		spnDays.setPreferredSize(cmpSpnDimensions);
 		c.gridx = 1;
 		c.gridy = 1;
@@ -93,6 +97,7 @@ public class TaskPanelV extends JPanel {
 		
 		spnHours = new JSpinner();
 		spnHours.setModel(new SpinnerNumberModel(0, 0, 23, 1));
+		setSpinnerToCommitOnValidEdit(spnHours);
 		spnHours.setPreferredSize(cmpSpnDimensions);
 		c.gridx = 2;
 		c.gridy = 1;
@@ -100,6 +105,7 @@ public class TaskPanelV extends JPanel {
 		
 		spnMinutes = new JSpinner();
 		spnMinutes.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+		setSpinnerToCommitOnValidEdit(spnMinutes);
 		spnMinutes.setPreferredSize(cmpSpnDimensions);
 		c.gridx = 3;
 		c.gridy = 1;
@@ -140,10 +146,19 @@ public class TaskPanelV extends JPanel {
 		c.gridx = 6;
 		c.gridy = 0;
 		this.add(btnDelete, c);
-		
-//		this.setVisible(true);
 	}
 	
+	/**
+	 * Sets the spinners commitOnValidEdit to true.
+	 * @param spinner the spinner
+	 */
+	private void setSpinnerToCommitOnValidEdit(JSpinner spinner) {
+		JComponent comp = spinner.getEditor();
+		JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
+		DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
+		formatter.setCommitsOnValidEdit(true);
+	}
+
 	/**
 	 * Disables or enables specific components.
 	 * @param isTimerStopped
