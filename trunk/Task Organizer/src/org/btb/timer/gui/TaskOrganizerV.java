@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,6 +52,11 @@ public class TaskOrganizerV extends JFrame {
 		fcp.add(spnTasks, BorderLayout.PAGE_END);
 		this.pack();
 		pnlTasks = (JPanel) spnTasks.getViewport().getView();
+		
+		URL url = ClassLoader.getSystemResource("icon.png");
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Image img = kit.createImage(url);
+		this.setIconImage(img);
 	}
 
 	/**

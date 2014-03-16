@@ -27,6 +27,9 @@
 	<target name="deploy" depends="compile">
 		<jar destfile="${dest.dir.dist}/Task Organizer.jar" basedir="${dest.dir.bin}" manifest="scripts/manifest.mf">
 			<zipgroupfileset dir="libs" includes="*.jar"/>
+			<fileset dir="resources">
+			    <include name="*.png"/>
+			</fileset>
 		</jar>
 	</target>
 </project>
