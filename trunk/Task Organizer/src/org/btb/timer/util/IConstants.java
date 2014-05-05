@@ -23,10 +23,12 @@ public interface IConstants {
 	String DEFAULT_SAVE_FILE_PATH = "saved data.dat";
 	int DEFAULT_MAX_DISPLAYED_TASKS = 5;
 	int DEFAULT_NUMBER_OF_TASKS = 3;
+	boolean DEFAULT_BUTTONS_WITH_ICONS = true;
 	
 	/*
 	 * Parameters
 	 */
 	String MAX_DISPLAYED_TASKS = "gui.maxDisplayedTasks";
+	String BUTTONS_WITH_ICONS = "gui.buttonsWithIcons";
 	
 }
