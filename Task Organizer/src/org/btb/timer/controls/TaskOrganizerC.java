@@ -79,13 +79,13 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		if (actionEventSource.equals(view.getBtnNewTask())) {
 			addNewTask(false);
 		} else if (actionEventSource instanceof JButton) {
-			if ("Delete".equals(((JButton) actionEventSource).getText())) {
+			if ("Delete".equals(((JButton) actionEventSource).getName())) {
 				removeTask((TaskPanelV) ((JButton) actionEventSource).getParent());
-			} else if ("Start".equals(((JButton) actionEventSource).getText())) {
+			} else if ("Start".equals(((JButton) actionEventSource).getName())) {
 				startTask((TaskPanelV) ((JButton) actionEventSource).getParent());
-			} else if ("Stop".equals(((JButton) actionEventSource).getText())) {
+			} else if ("Stop".equals(((JButton) actionEventSource).getName())) {
 				stopTask((TaskPanelV) ((JButton) actionEventSource).getParent());
-			} else if ("Reset".equals(((JButton) actionEventSource).getText())) {
+			} else if ("Reset".equals(((JButton) actionEventSource).getName())) {
 				resetTask((TaskPanelV) ((JButton) actionEventSource).getParent());
 			}
 		}		

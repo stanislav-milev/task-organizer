@@ -3,8 +3,10 @@ package org.btb.timer.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
@@ -17,6 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.text.DefaultFormatter;
 
 import org.btb.timer.data.TaskO;
+import org.btb.timer.util.Configuration;
+import org.btb.timer.util.Util;
 
 /**
  * Task Organizer view.
@@ -51,6 +55,7 @@ public class TaskPanelV extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(INSET, INSET, INSET, INSET);
 		Dimension cmpBtnDimensions = new Dimension(70, 25);
+		Dimension cmpBtnIconDimensions = new Dimension(25, 25);
 		Dimension cmpSpnDimensions = new Dimension(60, 25);
 		Dimension cmpTxfDimensions = new Dimension(200, 25);
 		
@@ -110,44 +115,62 @@ public class TaskPanelV extends JPanel {
 		c.gridx = 3;
 		c.gridy = 1;
 		this.add(spnMinutes, c);
-		
-		btnStart = new JButton("Start");
-		btnStart.setPreferredSize(cmpBtnDimensions);
+
+		btnStart = constructButton("Start", "start icon.png");
 		c.gridx = 4;
 		c.gridy = 1;
 		this.add(btnStart, c);
 
-		btnStop = new JButton("Stop");
-		btnStop.setPreferredSize(cmpBtnDimensions);
+		btnStop = constructButton("Stop", "stop icon.png");
 		c.gridx = 5;
 		c.gridy = 1;
 		this.add(btnStop, c);
 
-		btnReset = new JButton("Reset");
-		btnReset.setPreferredSize(cmpBtnDimensions);
+		btnReset = constructButton("Reset", "reset icon.png");
 		c.gridx = 6;
 		c.gridy = 1;
 		this.add(btnReset, c);
 
-		btnUp = new JButton("Up");
-		btnUp.setPreferredSize(cmpBtnDimensions);
+		btnUp = constructButton("Up", "up icon.png");
 		c.gridx = 4;
 		c.gridy = 0;
 		this.add(btnUp, c);
 
-		btnDown = new JButton("Down");
-		btnDown.setPreferredSize(cmpBtnDimensions);
+		btnDown = constructButton("Down", "down icon.png");
 		c.gridx = 5;
 		c.gridy = 0;
 		this.add(btnDown, c);
 
-		btnDelete = new JButton("Delete");
-		btnDelete.setPreferredSize(cmpBtnDimensions);
+		btnDelete = constructButton("Delete", "delete icon.png");
 		c.gridx = 6;
 		c.gridy = 0;
 		this.add(btnDelete, c);
 	}
 	
+	/**
+	 * Constructs a button.
+	 * @param name
+	 * @param iconFile
+	 * @return a new button
+	 */
+	private JButton constructButton(String name, String iconFile) {
+		Configuration cfg = Configuration.getInstance();
+		JButton button;
+		if (cfg.getButtonsWithIcons()) {
+			button = new JButton();
+			Image img = Util.getImageFromFile(iconFile);
+			img = img.getScaledInstance(24, 24,  java.awt.Image.SCALE_SMOOTH); 
+			ImageIcon icon = new ImageIcon(img);
+			button.setIcon(icon);
+			button.setPreferredSize(new Dimension(25, 25));
+		} else {
+			button = new JButton(name);
+			button.setPreferredSize(new Dimension(70, 25));
+		}
+		button.setName(name);
+		return button;
+	}
+
 	/**
 	 * Sets the spinners commitOnValidEdit to true.
 	 * @param spinner the spinner

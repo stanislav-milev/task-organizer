@@ -63,4 +63,16 @@ public class Configuration {
     	return IConstants.DEFAULT_MAX_DISPLAYED_TASKS;
     }
     
+    /**
+     * @return true if the buttons will be displayed with icons
+     */
+    public boolean getButtonsWithIcons() {
+    	if (config.containsKey(IConstants.BUTTONS_WITH_ICONS)) {
+    		String value = config.get(IConstants.BUTTONS_WITH_ICONS).toString();
+    		return Boolean.valueOf(value);
+    	}
+    	config.put(IConstants.BUTTONS_WITH_ICONS, IConstants.DEFAULT_BUTTONS_WITH_ICONS);
+    	return IConstants.DEFAULT_BUTTONS_WITH_ICONS;
+    }
+    
 }

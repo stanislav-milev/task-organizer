@@ -13,6 +13,7 @@
 		<mkdir dir="${dest.dir.bin}" />
 		<copy file="scripts/Task Organizer.bat" todir="${dest.dir.dist}"/>
         <copy file="configuration.properties" todir="${dest.dir.dist}"/>
+        <copy file="resources/Task Organizer.ico" todir="${dest.dir.dist}"/>
 	</target>
 	<path id="project.class.path">
 		<pathelement location="libs/" />

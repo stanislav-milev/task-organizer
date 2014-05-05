@@ -6,8 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.btb.timer.util.Configuration;
+import org.btb.timer.util.Util;
 
 /**
  * @author Stanislav Milev
@@ -34,15 +35,26 @@ public class TaskOrganizerV extends JFrame {
 	 * Constructor - Builds the GUI.
 	 */
 	public TaskOrganizerV() {
-		maxDisplayedTasks = Configuration.getInstance().getMaxDisplayedTasks();
+		Configuration cfg = Configuration.getInstance();
+		maxDisplayedTasks = cfg.getMaxDisplayedTasks();
 		this.setTitle("Task Organizer");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		Container fcp = this.getContentPane();
 		fcp.setLayout(new BorderLayout());
-		
-		btnNewTask = new JButton("New Task");
-		btnNewTask.setPreferredSize(new Dimension(70, 25));
+
+		// New Task button
+		if (cfg.getButtonsWithIcons()) {
+			btnNewTask = new JButton();
+			Image img = Util.getImageFromFile("new icon.png");
+			img = img.getScaledInstance(24, 24,  java.awt.Image.SCALE_SMOOTH); 
+			ImageIcon icon = new ImageIcon(img);
+			btnNewTask.setIcon(icon);
+			btnNewTask.setPreferredSize(new Dimension(25, 25));
+		} else {
+			btnNewTask = new JButton("New");
+			btnNewTask.setPreferredSize(new Dimension(70, 25));
+		}
 		fcp.add(btnNewTask, BorderLayout.LINE_END);
 		
 		pnlTasks = new JPanel();
@@ -53,12 +65,11 @@ public class TaskOrganizerV extends JFrame {
 		this.pack();
 		pnlTasks = (JPanel) spnTasks.getViewport().getView();
 		
-		URL url = ClassLoader.getSystemResource("icon.png");
-		Toolkit kit = Toolkit.getDefaultToolkit();
-		Image img = kit.createImage(url);
-		this.setIconImage(img);
+		this.setIconImage(Util.getImageFromFile("icon.png"));
 	}
 
+	
+	
 	/**
 	 * Shows the UI.
 	 */
