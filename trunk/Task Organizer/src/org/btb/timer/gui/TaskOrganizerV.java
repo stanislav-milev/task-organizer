@@ -129,4 +129,16 @@ public class TaskOrganizerV extends JFrame {
 		return btnNewTask;
 	}
 
+
+	/**
+	 * Moves the task to the given position.
+	 * @param index new index
+	 * @param task for moving
+	 */
+	public void moveTask(int index, TaskPanelV task) {
+		pnlTasks.remove(task);
+		pnlTasks.add(task, index);
+		pnlTasks.revalidate();
+	}
+
 }
