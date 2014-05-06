@@ -87,12 +87,52 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 				stopTask((TaskPanelV) ((JButton) actionEventSource).getParent());
 			} else if ("Reset".equals(((JButton) actionEventSource).getName())) {
 				resetTask((TaskPanelV) ((JButton) actionEventSource).getParent());
+			} else if ("Up".equals(((JButton) actionEventSource).getName())) {
+				moveTaskUp((TaskPanelV) ((JButton) actionEventSource).getParent());
+			} else if ("Down".equals(((JButton) actionEventSource).getName())) {
+				moveTaskDown((TaskPanelV) ((JButton) actionEventSource).getParent());
 			}
 		}		
 
 		if (actionEventSource.equals(timer)) {
 			adjustTime();
 		}
+	}
+
+	/**
+	 * Moving the task one position up.
+	 * @param task for moving up
+	 */
+	private void moveTaskUp(TaskPanelV task) {
+		log.info("Moving task (" + task.getTaskName() + ") up.");
+		int index = tasks.indexOf(task);
+		if (index == 0) {
+			log.info("The current task is first in the list.");
+			return;
+		}
+		tasks.remove(task);
+		index--;
+		tasks.add(index, task);
+		
+		view.moveTask(index, task);
+	}
+
+	/**
+	 * Moving the task one position down.
+	 * @param task for moving down
+	 */
+	private void moveTaskDown(TaskPanelV task) {
+		log.info("Moving task (" + task.getTaskName() + ") down.");
+		int index = tasks.indexOf(task);
+		if (index == tasks.size() - 1) {
+			log.info("The current task is last in the list.");
+			return;
+		}
+		tasks.remove(task);
+		index++;
+		tasks.add(index, task);
+		
+		view.moveTask(index, task);
 	}
 
 	/**
@@ -189,6 +229,8 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		task.getBtnStart().removeActionListener(this);
 		task.getBtnStop().removeActionListener(this);
 		task.getBtnReset().removeActionListener(this);
+		task.getBtnUp().removeActionListener(this);
+		task.getBtnDown().removeActionListener(this);
 		tasks.remove(task);
 		view.removeTask(task);
 	}
@@ -209,6 +251,8 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		newTask.getBtnStart().addActionListener(this);
 		newTask.getBtnStop().addActionListener(this);
 		newTask.getBtnReset().addActionListener(this);
+		newTask.getBtnUp().addActionListener(this);
+		newTask.getBtnDown().addActionListener(this);
 		//setState
 		newTask.setComponentsState(true);
 		return newTask;
