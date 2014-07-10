@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.btb.timer.data.TaskO;
 
 /**
  * Utility class for storing and loading data.
@@ -28,12 +26,12 @@ public class DataStore {
 	 * @param path	the path of the file
 	 * @param tasks the object that will be stored in the file
 	 */
-	public static void saveObject(String path, List<TaskO> tasks) {
+	public static void saveObject(String path, Object tasks) {
 		ObjectOutput out = null;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(new File(path)));
 			out.writeObject(tasks);
-			log.info("Saving");
+			log.info("Saving " + tasks);
 		} catch (IOException e) {
 			log.fatal("Can't save to file.", e);
 		} finally {
