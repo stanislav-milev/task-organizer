@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -31,16 +32,23 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 	private ArrayList<TaskPanelV> tasks;
 	private TaskPanelV currentTask;
 	private Timer timer;
+	private HashMap<String, TaskO> history;
 
 	/**
 	 * Constructor.
 	 * @param tasksData a list of TaskO
+	 * @param history 
 	 */
-	public TaskOrganizerC(List<TaskO> tasksData) {
+	public TaskOrganizerC(List<TaskO> tasksData, HashMap<String, TaskO> history) {
 		GUIThread gtView = new GUIThread();
 		gtView.start();
 		tasks = new ArrayList<TaskPanelV>();
 		timer = new Timer(IConstants.SECONDS, this);
+		this.history = history; 
+		
+		if (history == null) {
+			this.history = new HashMap<String, TaskO>();
+		}
 		
 		setListeners(gtView);
 		int numberOfTasks = IConstants.DEFAULT_NUMBER_OF_TASKS;
@@ -192,6 +200,7 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 			tasksData.add(tasks.get(i).getTimerO());
 		}
 		DataStore.saveObject(IConstants.DEFAULT_SAVE_FILE_PATH, tasksData);
+		DataStore.saveObject(IConstants.DEFAULT_HISTORY_FILE_PATH, history);
 	}
 
 	/**
@@ -231,6 +240,7 @@ public class TaskOrganizerC implements ActionListener, WindowListener {
 		task.getBtnReset().removeActionListener(this);
 		task.getBtnUp().removeActionListener(this);
 		task.getBtnDown().removeActionListener(this);
+		history.put(task.getTaskName(), task.getTimerO());
 		tasks.remove(task);
 		view.removeTask(task);
 	}
