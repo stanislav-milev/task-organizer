@@ -1,6 +1,7 @@
 package org.btb.timer;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.btb.timer.controls.TaskOrganizerC;
@@ -21,11 +22,15 @@ public class Start {
 	 */
 	public static void main(String[] args) {
 		List<TaskO> tasks = null;
+		HashMap<String, TaskO> history = null;
 		try {
 			tasks = (List<TaskO>) DataStore.getObject(IConstants.DEFAULT_SAVE_FILE_PATH);
 		} catch (IOException e) {}
+		try {
+			history = (HashMap<String, TaskO>) DataStore.getObject(IConstants.DEFAULT_HISTORY_FILE_PATH);
+		} catch (IOException e) {}
 
-		new TaskOrganizerC(tasks);
+		new TaskOrganizerC(tasks, history);
 	}
 
 }
